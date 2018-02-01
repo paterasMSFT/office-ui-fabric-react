@@ -39,6 +39,7 @@ export interface ITileCell<TItem> {
 interface IRowData {
   scaleFactor: number;
   isLastRow?: boolean;
+  maxScaleFactor?: number;
 }
 
 interface IPageData<TItem> {
@@ -148,9 +149,13 @@ export class TilesList<TItem> extends React.Component<ITilesListProps<TItem>, IT
         className={ css(TilesListStyles.cell) }
         // tslint:disable-next-line:jsx-ban-props
         style={
-          {
-            paddingTop: `${(100 * itemHeightOverWidth).toFixed(2)}%`
-          }
+          item.grid.mode === TilesGridMode.fillHorizontal ?
+            {
+              height: `${item.grid.minRowHeight}px`
+            } :
+            {
+              paddingTop: `${(100 * itemHeightOverWidth).toFixed(2)}%`
+            }
         }
       >
         <div
@@ -211,15 +216,32 @@ export class TilesList<TItem> extends React.Component<ITilesListProps<TItem>, IT
 
         if (currentRow) {
           const {
-            scaleFactor
+            scaleFactor,
+            isLastRow,
+            maxScaleFactor: currentRowMaxScaleFactor
           } = currentRow;
 
-          if (grid.mode === TilesGridMode.fill && (!currentRow.isLastRow || scaleFactor <= grid.maxScaleFactor)) {
-            const finalScaleFactor = Math.min(grid.maxScaleFactor, scaleFactor);
+          if (currentRowMaxScaleFactor) {
+            const finalScaleFactor = Math.min(currentRowMaxScaleFactor, grid.maxScaleFactor);
 
             finalSize = {
               width: finalSize.width * finalScaleFactor,
-              height: finalSize.height * finalScaleFactor
+              height: grid.mode === TilesGridMode.fill ?
+                finalSize.height * finalScaleFactor :
+                grid.minRowHeight
+            };
+          } else if ((grid.mode === TilesGridMode.fill ||
+            grid.mode === TilesGridMode.fillHorizontal) &&
+            (!isLastRow || scaleFactor <= grid.maxScaleFactor)) {
+            const finalScaleFactor = Math.min(
+              grid.maxScaleFactor,
+              scaleFactor);
+
+            finalSize = {
+              width: finalSize.width * finalScaleFactor,
+              height: grid.mode === TilesGridMode.fill ?
+                finalSize.height * finalScaleFactor :
+                grid.minRowHeight
             };
           }
         }
@@ -388,9 +410,31 @@ export class TilesList<TItem> extends React.Component<ITilesListProps<TItem>, IT
       if (rowWidth < boundsWidth) {
         const totalMargin = grid.spacing * (i - rowStart);
         currentRow.scaleFactor = (boundsWidth - totalMargin) / (rowWidth - totalMargin);
+
+        if ((grid.mode === TilesGridMode.fill || grid.mode === TilesGridMode.fillHorizontal) && currentRow.isLastRow) {
+          if (i - rowStart > 0) {
+            // Project the average tile width across the rest of the row.
+            const width = (rowWidth - totalMargin) / (i - rowStart) + grid.spacing;
+
+            let phantomRowWidth = rowWidth;
+
+            for (let j = i; ; j++) {
+              if (phantomRowWidth + width > boundsWidth) {
+                const phantomTotalMargin = grid.spacing * (j - rowStart);
+                currentRow.maxScaleFactor = (boundsWidth - phantomTotalMargin) / (phantomRowWidth - phantomTotalMargin);
+                break;
+              }
+
+              phantomRowWidth += width;
+            }
+          }
+        }
       }
 
-      if (!isAtGridEnd && currentRow.scaleFactor > (grid.mode === TilesGridMode.fill ? grid.maxScaleFactor : 1)) {
+      if (!isAtGridEnd && currentRow.scaleFactor > (
+        grid.mode === TilesGridMode.fill || grid.mode === TilesGridMode.fillHorizontal ?
+          grid.maxScaleFactor :
+          1)) {
         // If the last computed row is not the end of the grid, and the content cannot scale to fit the width,
         // declare these cells as 'extra' and let them be pushed into the next page.
         extraCells = cells.slice(rowStart, i);
@@ -442,16 +486,22 @@ export class TilesList<TItem> extends React.Component<ITilesListProps<TItem>, IT
 
     const itemWidthOverHeight = item.aspectRatio || 1;
     const margin = grid.spacing / 2;
-    const isFill = gridMode === TilesGridMode.fill;
+    const isFill = gridMode === TilesGridMode.fill || gridMode === TilesGridMode.fillHorizontal;
     const width = itemWidthOverHeight * grid.minRowHeight;
+
+    let maxWidth: number;
+
+    if (currentRow && currentRow.maxScaleFactor) {
+      maxWidth = width * Math.min(currentRow.maxScaleFactor, maxScaleFactor);
+    } else if (isFill && (!currentRow || !currentRow.isLastRow || currentRow.scaleFactor <= maxScaleFactor)) {
+      maxWidth = width * maxScaleFactor;
+    } else {
+      maxWidth = width;
+    }
 
     return {
       flex: isFill ? `${itemWidthOverHeight} ${itemWidthOverHeight} ${width}px` : `0 0 ${width}px`,
-      maxWidth: isFill && (!currentRow || !currentRow.isLastRow || currentRow.scaleFactor <= maxScaleFactor) ?
-        // Flexbox can scale the item to the maximum ratio.
-        `${width * maxScaleFactor}px` :
-        // The item must not be scaled.
-        `${width}px`,
+      maxWidth: `${maxWidth}px`,
       margin: `${margin}px`
     };
   }
