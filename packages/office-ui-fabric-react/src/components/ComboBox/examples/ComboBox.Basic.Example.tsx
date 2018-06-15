@@ -5,6 +5,7 @@ import { assign } from 'office-ui-fabric-react/lib/Utilities';
 import { SelectableOptionMenuItemType } from 'office-ui-fabric-react/lib/utilities/selectableOption/SelectableOption.types';
 import { IComboBox } from '../ComboBox.types';
 import { PrimaryButton } from '../../../Button';
+import { FocusZone, FocusZoneDirection } from '../../..';
 
 const INITIAL_OPTIONS = [
   { key: 'Header', text: 'Theme Fonts', itemType: SelectableOptionMenuItemType.Header },
@@ -286,6 +287,69 @@ export class ComboBoxBasicExample extends React.Component<
           onMenuOpen={() => console.log('ComboBox menu opened')}
           // tslint:enable:jsx-no-lambda
         />
+
+        <FocusZone allowFocusRoot={true} role="row" data-is-focusable={true} direction={FocusZoneDirection.vertical}>
+          <button>vert enabled</button>
+          <div>
+            <ComboBox
+              selectedKey={'E'}
+              allowFreeform={true}
+              label="Disabled"
+              ariaLabel="Basic ComboBox example"
+              autoComplete="on"
+              options={this._testOptions}
+            />
+          </div>
+          <button>I'm the other button</button>
+        </FocusZone>
+
+        <FocusZone allowFocusRoot={true} role="row" data-is-focusable={true} direction={FocusZoneDirection.horizontal}>
+          <button>I'm a button</button>
+          <div>
+            <ComboBox
+              selectedKey={'E'}
+              allowFreeform={true}
+              label="Disabled"
+              ariaLabel="Basic ComboBox example"
+              autoComplete="on"
+              options={this._testOptions}
+              disabled
+            />
+          </div>
+          <button>I'm the other button</button>
+        </FocusZone>
+
+        <FocusZone allowFocusRoot={true} role="row" data-is-focusable={true} direction={FocusZoneDirection.vertical}>
+          <button>Vert</button>
+          <div>
+            <ComboBox
+              selectedKey={'E'}
+              allowFreeform={true}
+              label="Disabled"
+              ariaLabel="Basic ComboBox example"
+              autoComplete="on"
+              options={this._testOptions}
+              disabled
+            />
+          </div>
+          <button>I'm the other button</button>
+        </FocusZone>
+
+        <div>
+          <button>Nozone</button>
+          <div>
+            <ComboBox
+              selectedKey={'E'}
+              allowFreeform={true}
+              label="Disabled"
+              ariaLabel="Basic ComboBox example"
+              autoComplete="on"
+              options={this._testOptions}
+              disabled
+            />
+          </div>
+          <button>I'm the other button</button>
+        </div>
       </div>
     );
   }
