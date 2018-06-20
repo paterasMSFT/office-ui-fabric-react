@@ -5,6 +5,7 @@ import { assign } from 'office-ui-fabric-react/lib/Utilities';
 import { SelectableOptionMenuItemType } from 'office-ui-fabric-react/lib/utilities/selectableOption/SelectableOption.types';
 import { IComboBox } from '../ComboBox.types';
 import { PrimaryButton } from '../../../Button';
+import { FocusZone, FocusZoneDirection } from '../../..';
 
 const INITIAL_OPTIONS = [
   { key: 'Header', text: 'Theme Fonts', itemType: SelectableOptionMenuItemType.Header },
@@ -36,7 +37,7 @@ export class ComboBoxBasicExample extends React.Component<
     selectedOptionKeys?: string[];
     valueMulti?: string;
   }
-  > {
+> {
   private _testOptions = [
     { key: 'Header', text: 'Theme Fonts', itemType: SelectableOptionMenuItemType.Header },
     { key: 'A', text: 'Arial Black' },
@@ -79,7 +80,6 @@ export class ComboBoxBasicExample extends React.Component<
         text: `Option ${i}`
       });
     }
-    this.scaleOptions.push({ key: '1000', text: 'Very Very Very Very long option' });
   }
 
   public render(): JSX.Element {
@@ -107,7 +107,7 @@ export class ComboBoxBasicExample extends React.Component<
               'Preview value was changed. Pending index: ' + pendingIndex + '. Pending value: ' + pendingValue
             )
           }
-        // tslint:enable:jsx-no-lambda
+          // tslint:enable:jsx-no-lambda
         />
 
         <PrimaryButton text="Set focus" onClick={this._basicComboBoxOnClick} />
@@ -126,7 +126,7 @@ export class ComboBoxBasicExample extends React.Component<
           onFocus={() => console.log('onFocus called')}
           onBlur={() => console.log('onBlur called')}
           onMenuOpen={() => console.log('ComboBox menu opened')}
-        // tslint:enable:jsx-no-lambda
+          // tslint:enable:jsx-no-lambda
         />
 
         <ComboBox
@@ -142,7 +142,7 @@ export class ComboBoxBasicExample extends React.Component<
           onFocus={() => console.log('onFocus called')}
           onBlur={() => console.log('onBlur called')}
           onMenuOpen={() => console.log('ComboBox menu opened')}
-        // tslint:enable:jsx-no-lambda
+          // tslint:enable:jsx-no-lambda
         />
 
         <ComboBox
@@ -158,7 +158,7 @@ export class ComboBoxBasicExample extends React.Component<
           onFocus={() => console.log('onFocus called')}
           onBlur={() => console.log('onBlur called')}
           onMenuOpen={() => console.log('ComboBox menu opened')}
-        // tslint:enable:jsx-no-lambda
+          // tslint:enable:jsx-no-lambda
         />
 
         <VirtualizedComboBox
@@ -179,7 +179,6 @@ export class ComboBoxBasicExample extends React.Component<
             )
           }
           // tslint:enable:jsx-no-lambda
-          dropdownMaxWidth={200}
         />
 
         <ComboBox
@@ -195,7 +194,7 @@ export class ComboBoxBasicExample extends React.Component<
           onFocus={() => console.log('onFocus called')}
           onBlur={() => console.log('onBlur called')}
           onMenuOpen={() => console.log('ComboBox menu opened')}
-        // tslint:enable:jsx-no-lambda
+          // tslint:enable:jsx-no-lambda
         />
 
         <ComboBox
@@ -209,7 +208,7 @@ export class ComboBoxBasicExample extends React.Component<
           onFocus={() => console.log('onFocus called')}
           onBlur={() => console.log('onBlur called')}
           onMenuOpen={() => console.log('ComboBox menu opened')}
-        // tslint:enable:jsx-no-lambda
+          // tslint:enable:jsx-no-lambda
         />
 
         <ComboBox
@@ -229,7 +228,7 @@ export class ComboBoxBasicExample extends React.Component<
           onFocus={() => console.log('onFocus called')}
           onBlur={() => console.log('onBlur called')}
           onMenuOpen={() => console.log('ComboBox menu opened')}
-        // tslint:enable:jsx-no-lambda
+          // tslint:enable:jsx-no-lambda
         />
 
         {value ? (
@@ -248,27 +247,27 @@ export class ComboBoxBasicExample extends React.Component<
             onFocus={() => console.log('onFocus called')}
             onBlur={() => console.log('onBlur called')}
             onMenuOpen={() => console.log('ComboBox menu opened')}
-          // tslint:enable:jsx-no-lambda
+            // tslint:enable:jsx-no-lambda
           />
         ) : (
-            <ComboBox
-              selectedKey={selectedOptionKey && selectedOptionKey}
-              label="Basic controlled example:"
-              id="Basicdrop5"
-              ariaLabel="Basic ComboBox example"
-              allowFreeform={true}
-              autoComplete="on"
-              options={options}
-              onChanged={this._onChanged}
-              onResolveOptions={this._getOptions}
-              onRenderOption={this._onRenderFontOption}
-              // tslint:disable:jsx-no-lambda
-              onFocus={() => console.log('onFocus called')}
-              onBlur={() => console.log('onBlur called')}
-              onMenuOpen={() => console.log('ComboBox menu opened')}
+          <ComboBox
+            selectedKey={selectedOptionKey && selectedOptionKey}
+            label="Basic controlled example:"
+            id="Basicdrop5"
+            ariaLabel="Basic ComboBox example"
+            allowFreeform={true}
+            autoComplete="on"
+            options={options}
+            onChanged={this._onChanged}
+            onResolveOptions={this._getOptions}
+            onRenderOption={this._onRenderFontOption}
+            // tslint:disable:jsx-no-lambda
+            onFocus={() => console.log('onFocus called')}
+            onBlur={() => console.log('onBlur called')}
+            onMenuOpen={() => console.log('ComboBox menu opened')}
             // tslint:enable:jsx-no-lambda
-            />
-          )}
+          />
+        )}
 
         <ComboBox
           multiSelect
@@ -286,8 +285,71 @@ export class ComboBoxBasicExample extends React.Component<
           onFocus={() => console.log('onFocus called')}
           onBlur={() => console.log('onBlur called')}
           onMenuOpen={() => console.log('ComboBox menu opened')}
-        // tslint:enable:jsx-no-lambda
+          // tslint:enable:jsx-no-lambda
         />
+
+        <FocusZone allowFocusRoot={true} role="row" data-is-focusable={true} direction={FocusZoneDirection.vertical}>
+          <button>vert enabled</button>
+          <div>
+            <ComboBox
+              selectedKey={'E'}
+              allowFreeform={true}
+              label="Disabled"
+              ariaLabel="Basic ComboBox example"
+              autoComplete="on"
+              options={this._testOptions}
+            />
+          </div>
+          <button>I'm the other button</button>
+        </FocusZone>
+
+        <FocusZone allowFocusRoot={true} role="row" data-is-focusable={true} direction={FocusZoneDirection.horizontal}>
+          <button>I'm a button</button>
+          <div>
+            <ComboBox
+              selectedKey={'E'}
+              allowFreeform={true}
+              label="Disabled"
+              ariaLabel="Basic ComboBox example"
+              autoComplete="on"
+              options={this._testOptions}
+              disabled
+            />
+          </div>
+          <button>I'm the other button</button>
+        </FocusZone>
+
+        <FocusZone allowFocusRoot={true} role="row" data-is-focusable={true} direction={FocusZoneDirection.vertical}>
+          <button>Vert</button>
+          <div>
+            <ComboBox
+              selectedKey={'E'}
+              allowFreeform={true}
+              label="Disabled"
+              ariaLabel="Basic ComboBox example"
+              autoComplete="on"
+              options={this._testOptions}
+              disabled
+            />
+          </div>
+          <button>I'm the other button</button>
+        </FocusZone>
+
+        <div>
+          <button>Nozone</button>
+          <div>
+            <ComboBox
+              selectedKey={'E'}
+              allowFreeform={true}
+              label="Disabled"
+              ariaLabel="Basic ComboBox example"
+              autoComplete="on"
+              options={this._testOptions}
+              disabled
+            />
+          </div>
+          <button>I'm the other button</button>
+        </div>
       </div>
     );
   }
