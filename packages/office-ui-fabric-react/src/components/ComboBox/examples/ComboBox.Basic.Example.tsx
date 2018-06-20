@@ -311,12 +311,29 @@ export class ComboBoxBasicExample extends React.Component<
             <ComboBox
               selectedKey={'E'}
               allowFreeform={true}
-              label="Disabled"
-              ariaLabel="Basic ComboBox example"
+              label="Arrows allowed"
+              ariaLabel="Arrows allowed"
               autoComplete="on"
               options={this._testOptions}
               disabled
-              allowArrowKeyInputWhenDisabled={true}
+              allowArrowKeyInputWhenDisabled={false}
+            />
+          </div>
+          <button>I'm the other button</button>
+        </FocusZone>
+
+        <FocusZone allowFocusRoot={true} role="row" data-is-focusable={true} direction={FocusZoneDirection.horizontal}>
+          <button>I'm a button</button>
+          <div>
+            <ComboBox
+              selectedKey={'E'}
+              allowFreeform={true}
+              label="No arrows"
+              ariaLabel="No arrows"
+              autoComplete="on"
+              options={this._testOptions}
+              disabled
+              allowArrowKeyInputWhenDisabled={false}
             />
           </div>
           <button>I'm the other button</button>
@@ -328,11 +345,12 @@ export class ComboBoxBasicExample extends React.Component<
             <ComboBox
               selectedKey={'E'}
               allowFreeform={true}
-              label="Disabled"
-              ariaLabel="Basic ComboBox example"
+              label="Vertical (allowed)"
+              ariaLabel="Vertical (allowed)"
               autoComplete="on"
               options={this._testOptions}
               disabled
+              allowArrowKeyInputWhenDisabled={true}
             />
           </div>
           <button>I'm the other button</button>
