@@ -37,7 +37,7 @@ export class ComboBoxBasicExample extends React.Component<
     selectedOptionKeys?: string[];
     valueMulti?: string;
   }
-  > {
+> {
   private _testOptions = [
     { key: 'Header', text: 'Theme Fonts', itemType: SelectableOptionMenuItemType.Header },
     { key: 'A', text: 'Arial Black' },
@@ -108,7 +108,7 @@ export class ComboBoxBasicExample extends React.Component<
               'Preview value was changed. Pending index: ' + pendingIndex + '. Pending value: ' + pendingValue
             )
           }
-        // tslint:enable:jsx-no-lambda
+          // tslint:enable:jsx-no-lambda
         />
 
         <PrimaryButton text="Set focus" onClick={this._basicComboBoxOnClick} />
@@ -127,7 +127,7 @@ export class ComboBoxBasicExample extends React.Component<
           onFocus={() => console.log('onFocus called')}
           onBlur={() => console.log('onBlur called')}
           onMenuOpen={() => console.log('ComboBox menu opened')}
-        // tslint:enable:jsx-no-lambda
+          // tslint:enable:jsx-no-lambda
         />
 
         <ComboBox
@@ -143,7 +143,7 @@ export class ComboBoxBasicExample extends React.Component<
           onFocus={() => console.log('onFocus called')}
           onBlur={() => console.log('onBlur called')}
           onMenuOpen={() => console.log('ComboBox menu opened')}
-        // tslint:enable:jsx-no-lambda
+          // tslint:enable:jsx-no-lambda
         />
 
         <ComboBox
@@ -159,7 +159,7 @@ export class ComboBoxBasicExample extends React.Component<
           onFocus={() => console.log('onFocus called')}
           onBlur={() => console.log('onBlur called')}
           onMenuOpen={() => console.log('ComboBox menu opened')}
-        // tslint:enable:jsx-no-lambda
+          // tslint:enable:jsx-no-lambda
         />
 
         <VirtualizedComboBox
@@ -196,7 +196,7 @@ export class ComboBoxBasicExample extends React.Component<
           onFocus={() => console.log('onFocus called')}
           onBlur={() => console.log('onBlur called')}
           onMenuOpen={() => console.log('ComboBox menu opened')}
-        // tslint:enable:jsx-no-lambda
+          // tslint:enable:jsx-no-lambda
         />
 
         <ComboBox
@@ -210,7 +210,7 @@ export class ComboBoxBasicExample extends React.Component<
           onFocus={() => console.log('onFocus called')}
           onBlur={() => console.log('onBlur called')}
           onMenuOpen={() => console.log('ComboBox menu opened')}
-        // tslint:enable:jsx-no-lambda
+          // tslint:enable:jsx-no-lambda
         />
 
         <ComboBox
@@ -230,7 +230,7 @@ export class ComboBoxBasicExample extends React.Component<
           onFocus={() => console.log('onFocus called')}
           onBlur={() => console.log('onBlur called')}
           onMenuOpen={() => console.log('ComboBox menu opened')}
-        // tslint:enable:jsx-no-lambda
+          // tslint:enable:jsx-no-lambda
         />
 
         {value ? (
@@ -249,27 +249,27 @@ export class ComboBoxBasicExample extends React.Component<
             onFocus={() => console.log('onFocus called')}
             onBlur={() => console.log('onBlur called')}
             onMenuOpen={() => console.log('ComboBox menu opened')}
-          // tslint:enable:jsx-no-lambda
+            // tslint:enable:jsx-no-lambda
           />
         ) : (
-            <ComboBox
-              selectedKey={selectedOptionKey && selectedOptionKey}
-              label="Basic controlled example:"
-              id="Basicdrop5"
-              ariaLabel="Basic ComboBox example"
-              allowFreeform={true}
-              autoComplete="on"
-              options={options}
-              onChanged={this._onChanged}
-              onResolveOptions={this._getOptions}
-              onRenderOption={this._onRenderFontOption}
-              // tslint:disable:jsx-no-lambda
-              onFocus={() => console.log('onFocus called')}
-              onBlur={() => console.log('onBlur called')}
-              onMenuOpen={() => console.log('ComboBox menu opened')}
+          <ComboBox
+            selectedKey={selectedOptionKey && selectedOptionKey}
+            label="Basic controlled example:"
+            id="Basicdrop5"
+            ariaLabel="Basic ComboBox example"
+            allowFreeform={true}
+            autoComplete="on"
+            options={options}
+            onChanged={this._onChanged}
+            onResolveOptions={this._getOptions}
+            onRenderOption={this._onRenderFontOption}
+            // tslint:disable:jsx-no-lambda
+            onFocus={() => console.log('onFocus called')}
+            onBlur={() => console.log('onBlur called')}
+            onMenuOpen={() => console.log('ComboBox menu opened')}
             // tslint:enable:jsx-no-lambda
-            />
-          )}
+          />
+        )}
 
         <ComboBox
           multiSelect
@@ -287,7 +287,7 @@ export class ComboBoxBasicExample extends React.Component<
           onFocus={() => console.log('onFocus called')}
           onBlur={() => console.log('onBlur called')}
           onMenuOpen={() => console.log('ComboBox menu opened')}
-        // tslint:enable:jsx-no-lambda
+          // tslint:enable:jsx-no-lambda
         />
 
         <FocusZone allowFocusRoot={true} role="row" data-is-focusable={true} direction={FocusZoneDirection.vertical}>
@@ -316,6 +316,7 @@ export class ComboBoxBasicExample extends React.Component<
               autoComplete="on"
               options={this._testOptions}
               disabled
+              allowArrowKeyInputWhenDisabled={true}
             />
           </div>
           <button>I'm the other button</button>
